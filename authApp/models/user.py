@@ -11,6 +11,7 @@ class UserManager(BaseUserManager):
     
     user = self.model(username=username)
     user.set_password(password)
+    user.is_active = True
     user.save(using=self._db)
     return user
 
@@ -31,7 +32,7 @@ class User(AbstractBaseUser, PermissionsMixin):
   name = models.CharField('Name', max_length=30)
   email = models.EmailField('Email', max_length=100)
   is_active = models.BooleanField(default=True)
-  
+
   def save(self, **kwargs):
     some_salt = 'wuwmqfdishs4456ay16'
     self.password = make_password(self.password, some_salt)
